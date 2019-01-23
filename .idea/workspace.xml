@@ -48,8 +48,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/MonsterGame.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="459">
-              <caret line="143" column="47" lean-forward="true" selection-start-line="143" selection-start-column="47" selection-end-line="143" selection-end-column="47" />
+            <state relative-caret-position="176">
+              <caret line="141" column="34" selection-start-line="141" selection-start-column="34" selection-end-line="141" selection-end-column="34" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#3396#3397#0" expanded="true" />
@@ -145,7 +145,7 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1548270719220" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1548270722686" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.0" />
@@ -327,8 +327,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/MonsterGame.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="459">
-          <caret line="143" column="47" lean-forward="true" selection-start-line="143" selection-start-column="47" selection-end-line="143" selection-end-column="47" />
+        <state relative-caret-position="176">
+          <caret line="141" column="34" selection-start-line="141" selection-start-column="34" selection-end-line="141" selection-end-column="34" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#3396#3397#0" expanded="true" />
