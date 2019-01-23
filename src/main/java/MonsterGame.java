@@ -22,14 +22,17 @@ public class MonsterGame {
 
         Player player = createPlayer();
 
-        drawCharacters(terminal, player);
+        List maze = createMaze();
+
+
+        drawCharacters(terminal, player, maze);
 
         do {
             KeyStroke keyStroke = getUserKeyStroke(terminal);
 
-            movePlayer(player, keyStroke);
+            movePlayer(player, keyStroke, maze);
 
-            drawCharacters(terminal, player);
+            drawCharacters(terminal, player, maze);
 
         } while (isPlayerAlive());
 
@@ -40,8 +43,6 @@ public class MonsterGame {
         terminal.flush();
     }
 
-//    private static List createMaze() {
-//    }
 
     private static void moveMonsters(Player player, List<Monster> monsters) {
         for (Monster monster : monsters) {
@@ -49,21 +50,61 @@ public class MonsterGame {
         }
     }
 
-    private static void movePlayer(Player player, KeyStroke keyStroke) {
+    private static void movePlayer(Player player, KeyStroke keyStroke, List maze) {
         switch (keyStroke.getKeyType()) {
             case ArrowUp:
-                player.moveUp();
+                if (canMove(player, 0, maze)) {
+                    player.moveUp();
+                }
                 break;
             case ArrowDown:
-                player.moveDown();
+                if (canMove(player, 1, maze)) {
+                    player.moveDown();
+                }
                 break;
             case ArrowLeft:
-                player.moveLeft();
+                if (canMove(player, 2, maze)) {
+                    player.moveLeft();
+                }
                 break;
             case ArrowRight:
-                player.moveRight();
+                if (canMove(player, 3, maze)) {
+                    player.moveRight();
+                }
                 break;
         }
+    }
+
+    private static Boolean canMove(Player player, int dir, List maze) {
+        Position pos;
+        switch (dir) {
+            case 0:
+                pos = new Position(player.getX(), player.getY() - 1);
+                if (!maze.contains(pos)) {
+                    return true;
+                }
+                break;
+            case 1:
+                pos = new Position(player.getX(), player.getY() + 1);
+                if (!maze.contains(pos)) {
+                    return true;
+                }
+                break;
+            case 2:
+                pos = new Position(player.getX() - 1, player.getY());
+                if (!maze.contains(pos)) {
+                    return true;
+                }
+                break;
+            case 3:
+                pos = new Position(player.getX() + 1, player.getY());
+                if (!maze.contains(pos)) {
+                    return true;
+                }
+                break;
+
+        }
+        return false;
     }
 
     private static KeyStroke getUserKeyStroke(Terminal terminal) throws InterruptedException, IOException {
@@ -95,21 +136,28 @@ public class MonsterGame {
         return terminal;
     }
 
-    private static void drawCharacters(Terminal terminal, Player player) throws IOException {
-        List<Position> maze = new ArrayList<>();
-
+    private static List createMaze() {
+        List<Position> maze = new ArrayList();
 
         for (int row = 4; row < 10; row++) {
             for (int c = 10; c < 15; c++) {
                 maze.add(new Position(c, row));
             }
         }
+        return maze;
+    }
+
+    private static void drawCharacters(Terminal terminal, Player player, List<Position> maze) throws IOException {
+
 
         for (Position p : maze) {
             terminal.setCursorPosition(p.x, p.y);
             terminal.putCharacter('\u2588');
         }
 
+
+        terminal.setCursorPosition(player.getPreviousX(), player.getPreviousY());
+        terminal.putCharacter(' ');
 
         terminal.setCursorPosition(player.getX(), player.getY());
         terminal.putCharacter(player.getSymbol());
