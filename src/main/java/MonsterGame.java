@@ -139,8 +139,8 @@ public class MonsterGame {
     private static List createMaze() {
         List<Position> maze = new ArrayList();
 
-        for (int row = 4; row < 10; row++) {
-            for (int c = 10; c < 15; c++) {
+        for (int row = 0; row <= 6; row++) {
+            for (int c = 0; c <= 10; c++) {
                 maze.add(new Position(c, row));
             }
         }
