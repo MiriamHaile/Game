@@ -10,6 +10,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class MonsterGame {
 
+    static int score = 0;
 
     public static void main(String[] args) throws IOException, InterruptedException {
 
@@ -42,6 +43,8 @@ public class MonsterGame {
             drawCharacters(terminal, player, maze, food, monsters);
 
         } while (isPlayerAlive());
+
+        printScore(terminal);
 
         terminal.setForegroundColor(TextColor.ANSI.RED);
         terminal.setCursorPosition(player.getX(), player.getY());
@@ -267,6 +270,7 @@ public class MonsterGame {
         if (ff != null) {
             food.remove(ff);
         }
+        score++;
     }
 
     private static List createPath(int x1, int y1, int x2, int y2) {
@@ -288,6 +292,7 @@ public class MonsterGame {
         return path;
     }
 
+<<<<<<< HEAD
     private static List createMonsters(){
         List<Monster> monsters = new ArrayList<>();
 
@@ -301,4 +306,15 @@ public class MonsterGame {
         monsters.add(monster2);
         return monsters;
     }
+=======
+    public static void printScore(Terminal terminal) throws IOException {
+        String message = "Score:";
+        for (int i = 0; i < message.length(); i++) {
+            terminal.setCursorPosition(i, 50);
+            terminal.putCharacter(message.charAt(i));
+        }
+        terminal.flush();
+    }
+
+>>>>>>> 7ac5fb671da4de3f1db92fca502ff5b644a49968
 }
