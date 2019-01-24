@@ -23,27 +23,31 @@ public class MonsterGame {
 
         Player player = createPlayer();
 
-        List<Monster> Monsters;
+        List<Monster> monsters = null;
 
         List<Food> food = createFood();
 
         List<Position> maze = createMaze();
 
         List<Position> path1 = createPath(12, 12, 14, 14);
-
+        List<Position> path2 = createPath(1, 7, 5, 9);
 
         Monster monster1 = new Monster(path1.get(0).x, path1.get(0).y, 'W', path1);
+        Monster monster2 = new Monster(path2.get(0).x, path2.get(0).y, 'W', path2);
 
-        drawCharacters(terminal, player, maze, food, monster1);
+        monsters.add(monster1);
+        monsters.add(monster2);
+
+        drawCharacters(terminal, player, maze, food, monster2);
 
         do {
-            KeyStroke keyStroke = getUserKeyStroke(terminal, monster1, path1, player);
+            KeyStroke keyStroke = getUserKeyStroke(terminal, monster2, player);
 
-            movePlayer(player, keyStroke, maze, food, terminal, monster1);
+            movePlayer(player, keyStroke, maze, food, terminal, monster2);
 
             eatFood(player, food);
 
-            drawCharacters(terminal, player, maze, food, monster1);
+            drawCharacters(terminal, player, maze, food, monster2);
 
         } while (isPlayerAlive());
 
@@ -124,7 +128,7 @@ public class MonsterGame {
         return false;
     }
 
-    private static KeyStroke getUserKeyStroke(Terminal terminal, Monster monster, List<Position> path, Player player) throws InterruptedException, IOException {
+    private static KeyStroke getUserKeyStroke(Terminal terminal, Monster monster, Player player) throws InterruptedException, IOException {
         KeyStroke keyStroke;
         int i = 0;
         do {
@@ -132,7 +136,7 @@ public class MonsterGame {
             keyStroke = terminal.pollInput();
             i++;
             if (i % 50 == 0) {
-                monster.monsterMove(path);
+                monster.monsterMove(monster.getPath());
                 if (monster.x == player.x && monster.y == player.y) {
                     System.out.println("game over");
                 }

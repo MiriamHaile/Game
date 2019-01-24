@@ -6,6 +6,10 @@ public class Monster extends GameCharacter{
     private int previousY;
     private List<Position> path;
 
+    public List<Position> getPath() {
+        return path;
+    }
+
     public Monster(int x, int y, char symbol, List<Position> path) {
         super(path.get(0).x, path.get(0).y);
         this.symbol = symbol;
