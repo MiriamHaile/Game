@@ -23,31 +23,23 @@ public class MonsterGame {
 
         Player player = createPlayer();
 
-        List<Monster> monsters = null;
+        List<Monster> monsters = createMonsters();
 
         List<Food> food = createFood();
 
         List<Position> maze = createMaze();
 
-        List<Position> path1 = createPath(12, 12, 14, 14);
-        List<Position> path2 = createPath(1, 7, 5, 9);
 
-        Monster monster1 = new Monster(path1.get(0).x, path1.get(0).y, 'W', path1);
-        Monster monster2 = new Monster(path2.get(0).x, path2.get(0).y, 'W', path2);
-
-        monsters.add(monster1);
-        monsters.add(monster2);
-
-        drawCharacters(terminal, player, maze, food, monster2);
+        drawCharacters(terminal, player, maze, food, monsters);
 
         do {
-            KeyStroke keyStroke = getUserKeyStroke(terminal, monster2, player);
+            KeyStroke keyStroke = getUserKeyStroke(terminal, monsters, player);
 
-            movePlayer(player, keyStroke, maze, food, terminal, monster2);
+            movePlayer(player, keyStroke, maze, food, terminal, monsters);
 
             eatFood(player, food);
 
-            drawCharacters(terminal, player, maze, food, monster2);
+            drawCharacters(terminal, player, maze, food, monsters);
 
         } while (isPlayerAlive());
 
@@ -62,7 +54,7 @@ public class MonsterGame {
     private static void moveMonsters(Player player, List<Monster> monsters) {
     }
 
-    private static void movePlayer(Player player, KeyStroke keyStroke, List maze, List food, Terminal terminal, Monster monster) throws IOException {
+    private static void movePlayer(Player player, KeyStroke keyStroke, List maze, List food, Terminal terminal, List<Monster> monsters) throws IOException {
         switch (keyStroke.getKeyType()) {
             case ArrowUp:
                 if (canMove(player, 0, maze, food, terminal)) {
@@ -85,9 +77,10 @@ public class MonsterGame {
                 }
                 break;
         }
-
-        if (monster.x == player.x && monster.y == player.y) {
-            System.out.println("game over");
+        for (Monster m : monsters) {
+            if (m.x == player.x && m.y == player.y) {
+                System.out.println("game over");
+            }
         }
     }
 
@@ -128,7 +121,7 @@ public class MonsterGame {
         return false;
     }
 
-    private static KeyStroke getUserKeyStroke(Terminal terminal, Monster monster, Player player) throws InterruptedException, IOException {
+    private static KeyStroke getUserKeyStroke(Terminal terminal, List<Monster> monsters, Player player) throws InterruptedException, IOException {
         KeyStroke keyStroke;
         int i = 0;
         do {
@@ -136,15 +129,17 @@ public class MonsterGame {
             keyStroke = terminal.pollInput();
             i++;
             if (i % 50 == 0) {
-                monster.monsterMove(monster.getPath());
-                if (monster.x == player.x && monster.y == player.y) {
-                    System.out.println("game over");
-                }
+                for ( Monster m : monsters) {
+                    m.monsterMove(m.getPath());
+                    if (m.x == player.x && m.y == player.y) {
+                        System.out.println("game over");
+                    }
 
-                terminal.setCursorPosition(monster.getX(), monster.getY());
-                terminal.putCharacter(monster.getSymbol());
-                terminal.setCursorPosition(monster.getPreviousX(), monster.getPreviousY());
-                terminal.putCharacter(' ');
+                    terminal.setCursorPosition(m.getX(), m.getY());
+                    terminal.putCharacter(m.getSymbol());
+                    terminal.setCursorPosition(m.getPreviousX(), m.getPreviousY());
+                    terminal.putCharacter(' ');
+                }
                 terminal.flush();
             }
         } while (keyStroke == null);
@@ -225,7 +220,7 @@ public class MonsterGame {
         return maze;
     }
 
-    private static void drawCharacters(Terminal terminal, Player player, List<Position> maze, List<Food> food, Monster monster) throws IOException {
+    private static void drawCharacters(Terminal terminal, Player player, List<Position> maze, List<Food> food, List<Monster> monsters) throws IOException {
 
 
         for (Position p : maze) {
@@ -238,12 +233,12 @@ public class MonsterGame {
                 terminal.putCharacter(f.getFood());
             }
         }
-
-        terminal.setCursorPosition(monster.getX(), monster.getY());
-        terminal.putCharacter(monster.getSymbol());
-        terminal.setCursorPosition(monster.getPreviousX(), monster.getPreviousY());
-        terminal.putCharacter(' ');
-
+        for (Monster m : monsters) {
+            terminal.setCursorPosition(m.getX(), m.getY());
+            terminal.putCharacter(m.getSymbol());
+            terminal.setCursorPosition(m.getPreviousX(), m.getPreviousY());
+            terminal.putCharacter(' ');
+        }
 
         terminal.setCursorPosition(player.getPreviousX(), player.getPreviousY());
         terminal.putCharacter(' ');
@@ -291,5 +286,19 @@ public class MonsterGame {
         }
         System.out.println(path);
         return path;
+    }
+
+    private static List createMonsters(){
+        List<Monster> monsters = new ArrayList<>();
+
+        List<Position> path1 = createPath(12, 12, 14, 14);
+        List<Position> path2 = createPath(1, 7, 5, 9);
+
+        Monster monster1 = new Monster(path1.get(0).x, path1.get(0).y, 'W', path1);
+        Monster monster2 = new Monster(path2.get(0).x, path2.get(0).y, 'W', path2);
+
+        monsters.add(monster1);
+        monsters.add(monster2);
+        return monsters;
     }
 }
