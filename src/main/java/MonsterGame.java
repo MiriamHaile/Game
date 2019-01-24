@@ -159,8 +159,48 @@ public class MonsterGame {
     private static List createMaze() {
         List<Position> maze = new ArrayList();
 
-        for (int row = 0; row <= 23; row += 3) {
-            for (int c = 0; c <= 80; c += 2) {
+        for (int row = 0; row< 3; row+=2){
+            for (int c = 0; c<21; c++){
+                maze.add(new Position(c,row));
+            }
+        }
+        for (int row = 10; row< 14; row+=2) {
+            for (int c = 20; c < 34; c++) {
+                maze.add(new Position(c, row));
+            }
+        }
+        for (int row = 14; row< 17; row+=2) {
+            for (int c = 30; c < 64; c++) {
+                maze.add(new Position(c, row));
+            }
+        }
+        for (int row = 18; row< 22; row+=2) {
+            for (int c = 2; c < 24; c++) {
+                maze.add(new Position(c, row));
+            }
+        }
+        for (int row = 2; row< 6; row+=2){
+            for (int c = 0; c<21; c++){
+                maze.add(new Position(c,row));
+            }
+        }
+        for (int row = 10; row< 12; row+=2){
+            for (int c = 10; c<21; c++){
+                maze.add(new Position(c,row));
+            }
+        }
+        for (int row = 20; row<24 ; row+=2) {
+            for (int c = 40; c < 60; c++) {
+                maze.add(new Position(c, row));
+            }
+        }
+        for (int row = 20; row<24 ; row+=2) {
+            for (int c = 0; c < 20; c++) {
+                maze.add(new Position(c, row));
+            }
+        }
+        for (int row = 3; row<7 ; row+=2) {
+            for (int c = 50; c < 70; c++) {
                 maze.add(new Position(c, row));
             }
         }
