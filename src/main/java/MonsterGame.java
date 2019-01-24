@@ -52,6 +52,8 @@ public class MonsterGame {
 
         } while (isPlayerAlive());
 
+        printScore(terminal);
+
         terminal.setForegroundColor(TextColor.ANSI.RED);
         terminal.setCursorPosition(player.getX(), player.getY());
         terminal.putCharacter(player.getSymbol());
@@ -295,10 +297,10 @@ public class MonsterGame {
         return path;
     }
 
-    public void printScore(Terminal terminal) throws IOException {
-        String message = "This is a String printed out in Lanterna by iterating over the characters";
+    public static void printScore(Terminal terminal) throws IOException {
+        String message = "Score:";
         for (int i = 0; i < message.length(); i++) {
-            terminal.setCursorPosition(i, 14);
+            terminal.setCursorPosition(i, 50);
             terminal.putCharacter(message.charAt(i));
         }
         terminal.flush();
