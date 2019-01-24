@@ -41,10 +41,8 @@ public class MonsterGame {
             eatFood(player, food);
 
             drawCharacters(terminal, player, maze, food, monsters);
-
         } while (isPlayerAlive());
 
-        printScore(terminal);
 
         terminal.setForegroundColor(TextColor.ANSI.RED);
         terminal.setCursorPosition(player.getX(), player.getY());
@@ -250,6 +248,7 @@ public class MonsterGame {
         terminal.putCharacter(player.getSymbol());
 
 
+        printScore(terminal, player.getScore());
         terminal.flush();
 
     }
@@ -269,8 +268,8 @@ public class MonsterGame {
         }
         if (ff != null) {
             food.remove(ff);
+            player.setScore(player.getScore() + 1);
         }
-        score++;
     }
 
     private static List createPath(int x1, int y1, int x2, int y2) {
@@ -307,10 +306,10 @@ public class MonsterGame {
         return monsters;
     }
 
-    public static void printScore(Terminal terminal) throws IOException {
-        String message = "Score:";
+    public static void printScore(Terminal terminal, int score) throws IOException {
+        String message = "Score: " + score;
         for (int i = 0; i < message.length(); i++) {
-            terminal.setCursorPosition(i, 50);
+            terminal.setCursorPosition(50 + i, 0);
             terminal.putCharacter(message.charAt(i));
         }
         terminal.flush();
