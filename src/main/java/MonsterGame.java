@@ -79,29 +79,29 @@ public class MonsterGame {
         }
     }
 
-    private static Boolean canMove(Player player, int dir, List maze) {
+    private static Boolean canMove(GameCharacter gameChar, int dir, List maze) {
         Position pos;
         switch (dir) {
             case 0:
-                pos = new Position(player.getX(), player.getY() - 1);
+                pos = new Position(gameChar.getX(), gameChar.getY() - 1);
                 if (!maze.contains(pos)) {
                     return true;
                 }
                 break;
             case 1:
-                pos = new Position(player.getX(), player.getY() + 1);
+                pos = new Position(gameChar.getX(), gameChar.getY() + 1);
                 if (!maze.contains(pos)) {
                     return true;
                 }
                 break;
             case 2:
-                pos = new Position(player.getX() - 1, player.getY());
+                pos = new Position(gameChar.getX() - 1, gameChar.getY());
                 if (!maze.contains(pos)) {
                     return true;
                 }
                 break;
             case 3:
-                pos = new Position(player.getX() + 1, player.getY());
+                pos = new Position(gameChar.getX() + 1, gameChar.getY());
                 if (!maze.contains(pos)) {
                     return true;
                 }

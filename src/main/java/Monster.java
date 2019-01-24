@@ -1,24 +1,13 @@
-public class Monster {
-    private int x;
-    private int y;
+public class Monster extends GameCharacter{
     private char symbol;
     private int previousX;
     private int previousY;
 
     public Monster(int x, int y, char symbol) {
-        this.x = x;
-        this.y = y;
+        super(x, y);
         this.symbol = symbol;
         this.previousX = x;
         this.previousY = y;
-    }
-
-    public int getX() {
-        return x;
-    }
-
-    public int getY() {
-        return y;
     }
 
     public char getSymbol() {

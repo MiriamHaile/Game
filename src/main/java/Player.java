@@ -1,24 +1,13 @@
-public class Player {
-    private int x;
-    private int y;
+public class Player extends GameCharacter {
     private char symbol;
     private int previousX;
     private int previousY;
 
     public Player(int x, int y, char symbol) {
-        this.x = x;
-        this.y = y;
+        super(x, y);
         this.symbol = symbol;
         this.previousX = x;
         this.previousY = y;
-    }
-
-    public int getX() {
-        return x;
-    }
-
-    public int getY() {
-        return y;
     }
 
     public char getSymbol() {
@@ -33,25 +22,25 @@ public class Player {
         return previousY;
     }
 
-    public void moveUp(){
+    public void moveUp() {
         previousX = x;
         previousY = y;
         y--;
     }
 
-    public void moveDown(){
+    public void moveDown() {
         previousX = x;
         previousY = y;
         y++;
     }
 
-    public void moveLeft(){
+    public void moveLeft() {
         previousX = x;
         previousY = y;
         x--;
     }
 
-    public void moveRight(){
+    public void moveRight() {
         previousX = x;
         previousY = y;
         x++;
