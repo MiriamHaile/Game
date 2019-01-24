@@ -10,11 +10,14 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class MonsterGame {
 
-
+    static int score = 0;
+    static Terminal terminal;
     public static void main(String[] args) throws IOException, InterruptedException {
 
 
         startGame();
+        printScore(terminal);
+
 
     }
 
@@ -23,27 +26,40 @@ public class MonsterGame {
 
         Player player = createPlayer();
 
-        List<Monster> Monsters;
 
         List<Food> food = createFood();
 
         List<Position> maze = createMaze();
 
-        List<Position> path1 = createPath(12, 12, 14, 14);
+        List<Position> path1 =  new ArrayList();
 
+        path1.add(new Position(12, 12));
+        path1.add(new Position(13, 12));
+        path1.add(new Position(14, 12));
+        path1.add(new Position(14, 13));
+        path1.add(new Position(14, 14));
+        path1.add(new Position(13, 14));
+        path1.add(new Position(12, 14));
+        path1.add(new Position(12, 13));
+        path1.add(new Position(12, 12));
 
         Monster monster1 = new Monster(path1.get(0).x, path1.get(0).y, 'W', path1);
 
         drawCharacters(terminal, player, maze, food, monster1);
 
-        do {
-            KeyStroke keyStroke = getUserKeyStroke(terminal, monster1, path1, player);
 
-            movePlayer(player, keyStroke, maze, food, terminal, monster1);
+        do {
+            KeyStroke keyStroke = getUserKeyStroke(terminal, monster1, path1);
+
+            movePlayer(player, keyStroke, maze, food, terminal);
+//            monster1.monsterMove(path1);
 
             eatFood(player, food);
 
             drawCharacters(terminal, player, maze, food, monster1);
+
+            printScore(terminal);
+
 
         } while (isPlayerAlive());
 
@@ -58,7 +74,7 @@ public class MonsterGame {
     private static void moveMonsters(Player player, List<Monster> monsters) {
     }
 
-    private static void movePlayer(Player player, KeyStroke keyStroke, List maze, List food, Terminal terminal, Monster monster) throws IOException {
+    private static void movePlayer(Player player, KeyStroke keyStroke, List maze, List food, Terminal terminal) throws IOException {
         switch (keyStroke.getKeyType()) {
             case ArrowUp:
                 if (canMove(player, 0, maze, food, terminal)) {
@@ -80,10 +96,6 @@ public class MonsterGame {
                     player.moveRight();
                 }
                 break;
-        }
-
-        if (monster.x == player.x && monster.y == player.y) {
-            System.out.println("game over");
         }
     }
 
@@ -124,7 +136,7 @@ public class MonsterGame {
         return false;
     }
 
-    private static KeyStroke getUserKeyStroke(Terminal terminal, Monster monster, List<Position> path, Player player) throws InterruptedException, IOException {
+    private static KeyStroke getUserKeyStroke(Terminal terminal, Monster monster, List<Position> path) throws InterruptedException, IOException {
         KeyStroke keyStroke;
         int i = 0;
         do {
@@ -132,10 +144,8 @@ public class MonsterGame {
             keyStroke = terminal.pollInput();
             i++;
             if (i % 50 == 0) {
+                System.out.println("monster mvoe");
                 monster.monsterMove(path);
-                if (monster.x == player.x && monster.y == player.y) {
-                    System.out.println("game over");
-                }
 
                 terminal.setCursorPosition(monster.getX(), monster.getY());
                 terminal.putCharacter(monster.getSymbol());
@@ -173,47 +183,47 @@ public class MonsterGame {
     private static List createMaze() {
         List<Position> maze = new ArrayList();
 
-        for (int row = 0; row < 3; row += 2) {
-            for (int c = 0; c < 21; c++) {
-                maze.add(new Position(c, row));
+        for (int row = 0; row< 3; row+=2){
+            for (int c = 0; c<21; c++){
+                maze.add(new Position(c,row));
             }
         }
-        for (int row = 10; row < 14; row += 2) {
+        for (int row = 10; row< 14; row+=2) {
             for (int c = 20; c < 34; c++) {
                 maze.add(new Position(c, row));
             }
         }
-        for (int row = 14; row < 17; row += 2) {
+        for (int row = 14; row< 17; row+=2) {
             for (int c = 30; c < 64; c++) {
                 maze.add(new Position(c, row));
             }
         }
-        for (int row = 18; row < 22; row += 2) {
+        for (int row = 18; row< 22; row+=2) {
             for (int c = 2; c < 24; c++) {
                 maze.add(new Position(c, row));
             }
         }
-        for (int row = 2; row < 6; row += 2) {
-            for (int c = 0; c < 21; c++) {
-                maze.add(new Position(c, row));
+        for (int row = 2; row< 6; row+=2){
+            for (int c = 0; c<21; c++){
+                maze.add(new Position(c,row));
             }
         }
-        for (int row = 10; row < 12; row += 2) {
-            for (int c = 10; c < 21; c++) {
-                maze.add(new Position(c, row));
+        for (int row = 10; row< 12; row+=2){
+            for (int c = 10; c<21; c++){
+                maze.add(new Position(c,row));
             }
         }
-        for (int row = 20; row < 24; row += 2) {
+        for (int row = 20; row<24 ; row+=2) {
             for (int c = 40; c < 60; c++) {
                 maze.add(new Position(c, row));
             }
         }
-        for (int row = 20; row < 24; row += 2) {
+        for (int row = 20; row<24 ; row+=2) {
             for (int c = 0; c < 20; c++) {
                 maze.add(new Position(c, row));
             }
         }
-        for (int row = 3; row < 7; row += 2) {
+        for (int row = 3; row<7 ; row+=2) {
             for (int c = 50; c < 70; c++) {
                 maze.add(new Position(c, row));
             }
@@ -256,11 +266,11 @@ public class MonsterGame {
         return true;
     }
 
-    private static void eatFood(Player player, List<Food> food) {
+    private static void eatFood(Player player, List<Food> food){
 
         Food ff = null;
         for (Food f : food) {
-            if (f.getX() == player.getX() && f.getY() == player.getY()) {
+            if (f.getX() == player.getX() && f.getY() == player.getY()){
                 ff = f;
                 break;
             }
@@ -268,24 +278,15 @@ public class MonsterGame {
         if (ff != null) {
             food.remove(ff);
         }
+        score++;
+    }
+    public static void printScore(Terminal terminal) throws IOException {
+        String message = "SCORE: ";
+        for (int i = 2; i < message.length(); i++) {
+            terminal.setCursorPosition(i, 60);
+            terminal.putCharacter(message.charAt(i));
+        }
+        terminal.flush();
     }
 
-    private static List createPath(int x1, int y1, int x2, int y2) {
-        List<Position> path = new ArrayList<>();
-
-        for (int x = x1; x < x2; x++) {
-            path.add(new Position(x, y1));
-        }
-        for (int y = y1; y < y2; y++) {
-            path.add(new Position(x2, y));
-        }
-        for (int x = x2; x > x1; x--) {
-            path.add(new Position(x, y2));
-        }
-        for (int y = y2; y > y1; y--) {
-            path.add(new Position(x1, y));
-        }
-        System.out.println(path);
-        return path;
-    }
 }
