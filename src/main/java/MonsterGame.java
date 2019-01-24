@@ -128,19 +128,13 @@ public class MonsterGame {
         return new Player(10, 10, '\u263a');
     }
 
-    /*private static Food createFood(){
-        int randomY = ThreadLocalRandom.current().nextInt(0, 25);
-        int randomX = ThreadLocalRandom.current().nextInt(0, 81);
-        return new Food ('吃', randomX, randomY);
-    }*/
-
     private static List createFood() {
         List<Food> foodItems = new ArrayList<>();
 
         for (int i = 0; i <= 6; i++) {
             int randomY = ThreadLocalRandom.current().nextInt(0, 25);
             int randomX = ThreadLocalRandom.current().nextInt(0, 81);
-            foodItems.add(new Food(randomX, randomY, '吃'));
+            foodItems.add(new Food(randomX, randomY, 'z'));
         }
         return foodItems;
 
@@ -181,8 +175,10 @@ public class MonsterGame {
             terminal.putCharacter('\u2588');
         }
         for (Food f : food) {
-            terminal.setCursorPosition(f.getX(), f.getY());
-            terminal.putCharacter('吃');
+            if (canMove(f, 4, maze)) {
+                terminal.setCursorPosition(f.getX(), f.getY());
+                terminal.putCharacter(f.getFood());
+            }
         }
 
         terminal.setCursorPosition(player.getPreviousX(), player.getPreviousY());
