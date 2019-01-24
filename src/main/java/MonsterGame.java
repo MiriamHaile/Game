@@ -6,6 +6,7 @@ import com.googlecode.lanterna.terminal.Terminal;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class MonsterGame {
 
@@ -22,17 +23,20 @@ public class MonsterGame {
 
         Player player = createPlayer();
 
+        Food food = createFood();
+
         List maze = createMaze();
 
 
-        drawCharacters(terminal, player, maze);
+
+        drawCharacters(terminal, player, maze, food);
 
         do {
             KeyStroke keyStroke = getUserKeyStroke(terminal);
 
             movePlayer(player, keyStroke, maze);
 
-            drawCharacters(terminal, player, maze);
+            drawCharacters(terminal, player, maze, food);
 
         } while (isPlayerAlive());
 
@@ -120,6 +124,11 @@ public class MonsterGame {
         return new Player(10, 10, '\u263a');
     }
 
+    private static Food createFood(){
+        int randomY = ThreadLocalRandom.current().nextInt(0, 25);
+        int randomX = ThreadLocalRandom.current().nextInt(0, 81);
+        return new Food ('吃', randomX, randomY);
+    }
     private static List<Monster> createMonsters() {
         List<Monster> monsters = new ArrayList<>();
         monsters.add(new Monster(3, 3, 'X'));
@@ -147,7 +156,7 @@ public class MonsterGame {
         return maze;
     }
 
-    private static void drawCharacters(Terminal terminal, Player player, List<Position> maze) throws IOException {
+    private static void drawCharacters(Terminal terminal, Player player, List<Position> maze, Food food) throws IOException {
 
 
         for (Position p : maze) {
@@ -161,6 +170,9 @@ public class MonsterGame {
 
         terminal.setCursorPosition(player.getX(), player.getY());
         terminal.putCharacter(player.getSymbol());
+
+        terminal.setCursorPosition(food.getX(), food.getY());
+        terminal.putCharacter(food.getFood());
 
         terminal.flush();
 
