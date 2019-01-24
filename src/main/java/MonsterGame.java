@@ -10,6 +10,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class MonsterGame {
 
+    static int score = 0;
 
     public static void main(String[] args) throws IOException, InterruptedException {
 
@@ -272,6 +273,7 @@ public class MonsterGame {
         if (ff != null) {
             food.remove(ff);
         }
+        score++;
     }
 
     private static List createPath(int x1, int y1, int x2, int y2) {
@@ -292,4 +294,14 @@ public class MonsterGame {
         System.out.println(path);
         return path;
     }
+
+    public void printScore(Terminal terminal) throws IOException {
+        String message = "This is a String printed out in Lanterna by iterating over the characters";
+        for (int i = 0; i < message.length(); i++) {
+            terminal.setCursorPosition(i, 14);
+            terminal.putCharacter(message.charAt(i));
+        }
+        terminal.flush();
+    }
+
 }
