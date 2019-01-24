@@ -28,7 +28,6 @@ public class MonsterGame {
         List maze = createMaze();
 
 
-
         drawCharacters(terminal, player, maze, food);
 
         do {
@@ -106,7 +105,12 @@ public class MonsterGame {
                     return true;
                 }
                 break;
-
+            case 4:
+                pos = new Position(gameChar.getX(), gameChar.getY());
+                if (!maze.contains(pos)) {
+                    return true;
+                }
+                break;
         }
         return false;
     }
@@ -130,17 +134,18 @@ public class MonsterGame {
         return new Food ('吃', randomX, randomY);
     }*/
 
-        private static List createFood(){
+    private static List createFood() {
         List<Food> foodItems = new ArrayList<>();
 
-        for(int i = 0; i <= 6;i++){
-        int randomY = ThreadLocalRandom.current().nextInt(0, 25);
-        int randomX = ThreadLocalRandom.current().nextInt(0, 81);
-        foodItems.add(new Food ('吃', randomX, randomY));
+        for (int i = 0; i <= 6; i++) {
+            int randomY = ThreadLocalRandom.current().nextInt(0, 25);
+            int randomX = ThreadLocalRandom.current().nextInt(0, 81);
+            foodItems.add(new Food('吃', randomX, randomY));
         }
         return foodItems;
 
-        }
+    }
+
     private static List<Monster> createMonsters() {
         List<Monster> monsters = new ArrayList<>();
         monsters.add(new Monster(3, 3, 'X'));
@@ -160,8 +165,8 @@ public class MonsterGame {
     private static List createMaze() {
         List<Position> maze = new ArrayList();
 
-        for (int row = 0; row <= 23; row+=3) {
-            for (int c = 0; c <= 80; c+=2) {
+        for (int row = 0; row <= 23; row += 3) {
+            for (int c = 0; c <= 80; c += 2) {
                 maze.add(new Position(c, row));
             }
         }
@@ -175,7 +180,7 @@ public class MonsterGame {
             terminal.setCursorPosition(p.x, p.y);
             terminal.putCharacter('\u2588');
         }
-        for(Food f : food){
+        for (Food f : food) {
             terminal.setCursorPosition(f.getX(), f.getY());
             terminal.putCharacter('吃');
         }
@@ -185,7 +190,6 @@ public class MonsterGame {
 
         terminal.setCursorPosition(player.getX(), player.getY());
         terminal.putCharacter(player.getSymbol());
-
 
 
         terminal.flush();

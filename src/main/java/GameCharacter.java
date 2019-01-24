@@ -1,8 +1,8 @@
 public class GameCharacter {
 
     protected int x;
-    protected int y;
 
+    protected int y;
     public int getX() {
         return x;
     }
