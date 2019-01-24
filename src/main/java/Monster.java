@@ -15,6 +15,8 @@ public class Monster extends GameCharacter{
     }
 
     public void monsterMove (List<Position> path) {
+        previousX = this.x;
+        previousY = this.y;
         for (int i = 0; i < path.size(); i++) {
             if (i == path.size() - 1) {
                 this.x = path.get(0).x;

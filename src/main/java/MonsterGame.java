@@ -45,10 +45,10 @@ public class MonsterGame {
         drawCharacters(terminal, player, maze, food, monster1);
 
         do {
-            KeyStroke keyStroke = getUserKeyStroke(terminal);
+            KeyStroke keyStroke = getUserKeyStroke(terminal, monster1, path1);
 
             movePlayer(player, keyStroke, maze, food, terminal);
-            monster1.monsterMove(path1);
+//            monster1.monsterMove(path1);
 
             eatFood(player, food);
 
@@ -129,11 +129,23 @@ public class MonsterGame {
         return false;
     }
 
-    private static KeyStroke getUserKeyStroke(Terminal terminal) throws InterruptedException, IOException {
+    private static KeyStroke getUserKeyStroke(Terminal terminal, Monster monster, List<Position> path) throws InterruptedException, IOException {
         KeyStroke keyStroke;
+        int i = 0;
         do {
             Thread.sleep(5);
             keyStroke = terminal.pollInput();
+            i++;
+            if (i % 50 == 0) {
+                System.out.println("monster mvoe");
+                monster.monsterMove(path);
+
+                terminal.setCursorPosition(monster.getX(), monster.getY());
+                terminal.putCharacter(monster.getSymbol());
+                terminal.setCursorPosition(monster.getPreviousX(), monster.getPreviousY());
+                terminal.putCharacter(' ');
+                terminal.flush();
+            }
         } while (keyStroke == null);
         return keyStroke;
     }
