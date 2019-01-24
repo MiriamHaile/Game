@@ -292,7 +292,7 @@ public class MonsterGame {
         return path;
     }
 
-<<<<<<< HEAD
+
     private static List createMonsters(){
         List<Monster> monsters = new ArrayList<>();
 
@@ -306,7 +306,7 @@ public class MonsterGame {
         monsters.add(monster2);
         return monsters;
     }
-=======
+
     public static void printScore(Terminal terminal) throws IOException {
         String message = "Score:";
         for (int i = 0; i < message.length(); i++) {
@@ -316,5 +316,4 @@ public class MonsterGame {
         terminal.flush();
     }
 
->>>>>>> 7ac5fb671da4de3f1db92fca502ff5b644a49968
 }
