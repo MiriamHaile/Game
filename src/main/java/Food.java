@@ -1,4 +1,4 @@
-public class Food extends GameCharacter{
+public class Food extends GameCharacter {
 
     private char food;
 
@@ -12,12 +12,4 @@ public class Food extends GameCharacter{
     public char getFood() {
         return food;
     }
-
-//    public int getX() {
-//        return x;
-//    }
-//
-//    public int getY() {
-//        return y;
-//    }
 }

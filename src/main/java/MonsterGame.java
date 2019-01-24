@@ -23,9 +23,9 @@ public class MonsterGame {
 
         Player player = createPlayer();
 
-        List food = createFood();
+        List<Food> food = createFood();
 
-        List maze = createMaze();
+        List<Position> maze = createMaze();
 
 
         drawCharacters(terminal, player, maze, food);
@@ -33,7 +33,9 @@ public class MonsterGame {
         do {
             KeyStroke keyStroke = getUserKeyStroke(terminal);
 
-            movePlayer(player, keyStroke, maze);
+            movePlayer(player, keyStroke, maze, food, terminal);
+
+            eatFood(player, food);
 
             drawCharacters(terminal, player, maze, food);
 
@@ -53,32 +55,32 @@ public class MonsterGame {
         }
     }
 
-    private static void movePlayer(Player player, KeyStroke keyStroke, List maze) {
+    private static void movePlayer(Player player, KeyStroke keyStroke, List maze, List food, Terminal terminal) throws IOException {
         switch (keyStroke.getKeyType()) {
             case ArrowUp:
-                if (canMove(player, 0, maze)) {
+                if (canMove(player, 0, maze, food, terminal)) {
                     player.moveUp();
                 }
                 break;
             case ArrowDown:
-                if (canMove(player, 1, maze)) {
+                if (canMove(player, 1, maze, food, terminal)) {
                     player.moveDown();
                 }
                 break;
             case ArrowLeft:
-                if (canMove(player, 2, maze)) {
+                if (canMove(player, 2, maze, food, terminal)) {
                     player.moveLeft();
                 }
                 break;
             case ArrowRight:
-                if (canMove(player, 3, maze)) {
+                if (canMove(player, 3, maze, food, terminal)) {
                     player.moveRight();
                 }
                 break;
         }
     }
 
-    private static Boolean canMove(GameCharacter gameChar, int dir, List maze) {
+    private static Boolean canMove(GameCharacter gameChar, int dir, List maze, List food, Terminal terminal) throws IOException {
         Position pos;
         switch (dir) {
             case 0:
@@ -131,7 +133,7 @@ public class MonsterGame {
     private static List createFood() {
         List<Food> foodItems = new ArrayList<>();
 
-        for (int i = 0; i <= 6; i++) {
+        for (int i = 0; i <= 60; i++) {
             int randomY = ThreadLocalRandom.current().nextInt(0, 25);
             int randomX = ThreadLocalRandom.current().nextInt(0, 81);
             foodItems.add(new Food(randomX, randomY, 'z'));
@@ -175,7 +177,7 @@ public class MonsterGame {
             terminal.putCharacter('\u2588');
         }
         for (Food f : food) {
-            if (canMove(f, 4, maze)) {
+            if (canMove(f, 4, maze, food, terminal)) {
                 terminal.setCursorPosition(f.getX(), f.getY());
                 terminal.putCharacter(f.getFood());
             }
@@ -194,5 +196,19 @@ public class MonsterGame {
 
     private static boolean isPlayerAlive() {
         return true;
+    }
+
+    private static void eatFood(Player player, List<Food> food){
+
+        Food ff = null;
+        for (Food f : food) {
+            if (f.getX() == player.getX() && f.getY() == player.getY()){
+                ff = f;
+                break;
+            }
+        }
+        if (ff != null) {
+            food.remove(ff);
+        }
     }
 }

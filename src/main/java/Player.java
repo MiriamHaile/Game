@@ -2,12 +2,21 @@ public class Player extends GameCharacter {
     private char symbol;
     private int previousX;
     private int previousY;
+    private int score = 0;
 
     public Player(int x, int y, char symbol) {
         super(x, y);
         this.symbol = symbol;
         this.previousX = x;
         this.previousY = y;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
+    }
+
+    public int getScore() {
+        return score;
     }
 
     public char getSymbol() {
