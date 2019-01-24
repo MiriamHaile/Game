@@ -136,7 +136,7 @@ public class MonsterGame {
         for(int i = 0; i <= 6;i++){
         int randomY = ThreadLocalRandom.current().nextInt(0, 25);
         int randomX = ThreadLocalRandom.current().nextInt(0, 81);
-        foodItems.add(new Food ('吃', randomX, randomY));
+        foodItems.add(new Food (randomX, randomY,'吃'));
         }
         return foodItems;
 

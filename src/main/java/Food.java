@@ -1,14 +1,13 @@
-public class Food {
+public class Food extends GameCharacter{
 
     private char food;
-    private int x;
-    private int y;
 
-    public Food(char food, int x, int y) {
+
+    public Food(int x, int y, char food) {
+        super(x, y);
         this.food = food;
-        this.x = x;
-        this.y = y;
     }
+
 
     public char getFood() {
         return food;
