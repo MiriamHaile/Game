@@ -23,21 +23,36 @@ public class MonsterGame {
 
         Player player = createPlayer();
 
+
         List<Food> food = createFood();
 
         List<Position> maze = createMaze();
 
+        List<Position> path1 =  new ArrayList();
 
-        drawCharacters(terminal, player, maze, food);
+        path1.add(new Position(12, 12));
+        path1.add(new Position(13, 12));
+        path1.add(new Position(14, 12));
+        path1.add(new Position(14, 13));
+        path1.add(new Position(14, 14));
+        path1.add(new Position(13, 14));
+        path1.add(new Position(12, 14));
+        path1.add(new Position(12, 13));
+        path1.add(new Position(12, 12));
+
+        Monster monster1 = new Monster(path1.get(0).x, path1.get(0).y, 'W', path1);
+
+        drawCharacters(terminal, player, maze, food, monster1);
 
         do {
             KeyStroke keyStroke = getUserKeyStroke(terminal);
 
             movePlayer(player, keyStroke, maze, food, terminal);
+            monster1.monsterMove(path1);
 
             eatFood(player, food);
 
-            drawCharacters(terminal, player, maze, food);
+            drawCharacters(terminal, player, maze, food, monster1);
 
         } while (isPlayerAlive());
 
@@ -50,9 +65,6 @@ public class MonsterGame {
 
 
     private static void moveMonsters(Player player, List<Monster> monsters) {
-        for (Monster monster : monsters) {
-            monster.moveTowards(player);
-        }
     }
 
     private static void movePlayer(Player player, KeyStroke keyStroke, List maze, List food, Terminal terminal) throws IOException {
@@ -142,15 +154,6 @@ public class MonsterGame {
 
     }
 
-    private static List<Monster> createMonsters() {
-        List<Monster> monsters = new ArrayList<>();
-        monsters.add(new Monster(3, 3, 'X'));
-        monsters.add(new Monster(23, 23, 'X'));
-        monsters.add(new Monster(23, 3, 'X'));
-        monsters.add(new Monster(3, 23, 'X'));
-        return monsters;
-    }
-
     private static Terminal createTerminal() throws IOException {
         DefaultTerminalFactory terminalFactory = new DefaultTerminalFactory();
         Terminal terminal = terminalFactory.createTerminal();
@@ -209,7 +212,7 @@ public class MonsterGame {
         return maze;
     }
 
-    private static void drawCharacters(Terminal terminal, Player player, List<Position> maze, List<Food> food) throws IOException {
+    private static void drawCharacters(Terminal terminal, Player player, List<Position> maze, List<Food> food, Monster monster) throws IOException {
 
 
         for (Position p : maze) {
@@ -222,6 +225,12 @@ public class MonsterGame {
                 terminal.putCharacter(f.getFood());
             }
         }
+
+        terminal.setCursorPosition(monster.getX(), monster.getY());
+        terminal.putCharacter(monster.getSymbol());
+        terminal.setCursorPosition(monster.getPreviousX(), monster.getPreviousY());
+        terminal.putCharacter(' ');
+
 
         terminal.setCursorPosition(player.getPreviousX(), player.getPreviousY());
         terminal.putCharacter(' ');
