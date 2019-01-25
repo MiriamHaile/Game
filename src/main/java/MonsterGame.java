@@ -11,6 +11,13 @@ import java.util.concurrent.ThreadLocalRandom;
 public class MonsterGame {
 
     public static void main(String[] args) throws IOException {
+        MP3Player m = new MP3Player();
+        boolean again = true;
+        do {
+
+            m.play("victory.mp3", true);
+            break;
+        } while (again);
         startGame();
     }
 
