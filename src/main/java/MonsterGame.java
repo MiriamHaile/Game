@@ -46,8 +46,6 @@ public class MonsterGame {
             drawPlayer(terminal, player);
         } while (isPlayerAlive());
 
-
-        terminal.setForegroundColor(TextColor.ANSI.RED);
         terminal.setCursorPosition(player.getX(), player.getY());
         terminal.putCharacter(player.getSymbol());
         terminal.bell();
@@ -159,7 +157,7 @@ public class MonsterGame {
         for (int i = 0; i <= 60; i++) {
             int randomY = ThreadLocalRandom.current().nextInt(0, 24);
             int randomX = ThreadLocalRandom.current().nextInt(0, 80);
-            foodItems.add(new Food(randomX, randomY, 'z'));
+            foodItems.add(new Food(randomX, randomY, '⭖'));
         }
         return foodItems;
 
@@ -186,11 +184,13 @@ public class MonsterGame {
         for (Position p : maze) {
             terminal.setCursorPosition(p.x, p.y);
             terminal.putCharacter('\u2588');
+            terminal.setForegroundColor(TextColor.ANSI.BLUE);
         }
         for (Food f : food) {
             if (canMove(f, 4, maze, food, terminal)) {
                 terminal.setCursorPosition(f.getX(), f.getY());
                 terminal.putCharacter(f.getFood());
+                terminal.setForegroundColor(TextColor.ANSI.GREEN);
             }
         }
         for (Monster m : monsters) {
@@ -198,6 +198,7 @@ public class MonsterGame {
             terminal.putCharacter(m.getSymbol());
             terminal.setCursorPosition(m.getPreviousX(), m.getPreviousY());
             terminal.putCharacter(' ');
+            terminal.setForegroundColor(TextColor.ANSI.YELLOW);
         }
         terminal.flush();
     }
@@ -208,6 +209,7 @@ public class MonsterGame {
 
         terminal.setCursorPosition(player.getX(), player.getY());
         terminal.putCharacter(player.getSymbol());
+        terminal.setForegroundColor(TextColor.ANSI.RED);
 
         printScore(terminal, player.getScore());
         terminal.flush();
@@ -272,25 +274,18 @@ public class MonsterGame {
         List<Position> path1 = createCirclePath(12, 12, 14, 14);
         List<Position> path2 = createCirclePath(1, 7, 5, 9);
         List<Position> path3 = new ArrayList<>();
-        path3.addAll(createLinePath(2, 2, 20, 2));
-        path3.addAll(createLinePath(2, 2, 20, 2));
-        path3.addAll(createLinePath(20, 2, 20, 2));
+        path3.addAll(createLinePath(2, 2, 50, 2));
+        path3.addAll(createLinePath(2, 2, 50, 2));
 
 
-        Monster monster1 = new Monster(path1.get(0).x, path1.get(0).y, 'W', path1);
-        Monster monster2 = new Monster(path2.get(0).x, path2.get(0).y, 'W', path2);
+        Monster monster1 = new Monster(path1.get(0).x, path1.get(0).y, '⛇', path1);
+        Monster monster2 = new Monster(path2.get(0).x, path2.get(0).y, '⛇', path2);
 
         monsters.add(monster1);
         monsters.add(monster2);
         return monsters;
     }
-//
-//    -----------------------------------------
-//                                            |
-//                                            |
-//                                            |
-//                                            |--------------------
-//
+
     public static void printScore(Terminal terminal, int score) throws IOException {
         String message = "Score: " + score;
         for (int i = 0; i < message.length(); i++) {
