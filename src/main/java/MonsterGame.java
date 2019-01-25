@@ -13,7 +13,6 @@ public class MonsterGame {
     static int score = 0;
     static boolean playerAlive = true;
 
-
     public static void main(String[] args) throws IOException, InterruptedException {
 
         startGame();
@@ -46,13 +45,7 @@ public class MonsterGame {
             eatFood(player, food);
 
             drawPlayer(terminal, player);
-        } while (isPlayerAlive());
-
-            drawCharacters(terminal, player, maze, food, monsters);
-        }
-
-    private static Terminal createTerminal() {
-    } while (playerAlive);
+        } while (playerAlive);
 
         terminal.setCursorPosition(player.getX(), player.getY());
         terminal.putCharacter(player.getSymbol());
@@ -60,12 +53,17 @@ public class MonsterGame {
         terminal.flush();
     }
 
-
     private static void moveMonsters(Terminal terminal, List<Monster> monsters, Player player) throws IOException {
         for (Monster m : monsters) {
             m.monsterMove(m.getPath());
-            if (m.x == player.x && m.y == player.y) {
-                System.out.println("game over");
+            if (m.getX() == player.getX() && m.getY()== player.getY()) {
+//                System.out.println("game over");
+                playerAlive = false;
+                String endMessage = "GAME OVER!! FINAL SCORE: "+player.getScore();
+                for (int i = 0;i < endMessage.length();i++){
+                    terminal.setCursorPosition(20 + i, 2);
+                    terminal.putCharacter(endMessage.charAt(i));
+                }
             }
 
             terminal.setCursorPosition(m.getX(), m.getY());
@@ -105,18 +103,6 @@ public class MonsterGame {
                 if (m.x == player.x && m.y == player.y) {
                     System.out.println("game over");
                 }
-=======
-                break;
-        }
-        for (Monster m : monsters) {
-            if (m.getX() == player.getX() && m.getY() == player.getY()) {
-                playerAlive = false;
-                String endMessage = "GAME OVER! Final Score: " + player.getScore();
-                for (int i = 0; i < endMessage.length(); i++) {
-                    terminal.putCharacter(endMessage.charAt(i));
-                }
-
->>>>>>> Stashed changes
             }
         }
     }
@@ -163,28 +149,6 @@ public class MonsterGame {
         do {
             Thread.sleep(5);
             keyStroke = terminal.pollInput();
-<<<<<<< Updated upstream
-=======
-            i++;
-            if (i % 50 == 0) {
-                for (Monster m : monsters) {
-                    m.monsterMove(m.getPath());
-                    if (m.getX() == player.getX() && m.getY() == player.getY()) {
-                        playerAlive = false;
-                        String endMessage = "GAME OVER! Final Score: " + player.getScore();
-                        for (int j = 0; j < endMessage.length(); j++) {
-                            terminal.putCharacter(endMessage.charAt(j));
-                        }
-                    }
-
-                    terminal.setCursorPosition(m.getX(), m.getY());
-                    terminal.putCharacter(m.getSymbol());
-                    terminal.setCursorPosition(m.getPreviousX(), m.getPreviousY());
-                    terminal.putCharacter(' ');
-                }
-                terminal.flush();
-            }
->>>>>>> Stashed changes
         } while (keyStroke == null);
         return keyStroke;
     }
@@ -194,16 +158,14 @@ public class MonsterGame {
     }
 
     private static List createFood() {
-        if (playerAlive){
         List<Food> foodItems = new ArrayList<>();
 
         for (int i = 0; i <= 60; i++) {
             int randomY = ThreadLocalRandom.current().nextInt(0, 24);
             int randomX = ThreadLocalRandom.current().nextInt(0, 80);
-            foodItems.add(new Food(randomX, randomY, '⭖'));
+            foodItems.add(new Food(randomX, randomY, '✹'));
         }
-        return foodItems;}
-        else return null;
+        return foodItems;
 
     }
 
@@ -215,7 +177,6 @@ public class MonsterGame {
     }
 
     private static List createMaze() {
-        if(playerAlive){
         List<Position> maze = new ArrayList();
 
         for (int y = 3; y <= 21; y += 3) {
@@ -235,16 +196,11 @@ public class MonsterGame {
         for (int y = 13; y <= 20; y += 2) {
             maze.addAll(createLinePath(46, y, 77, y));
         }
-<<<<<<< Updated upstream
 
         maze.addAll(createCirclePath(0, 0, 79, 23));
 
 
         return maze;
-=======
-        return maze;}
-        else return null;
->>>>>>> Stashed changes
     }
 
     private static void drawCharacters(Terminal terminal, List<Position> maze, List<Food> food, List<Monster> monsters) throws IOException {
@@ -282,6 +238,10 @@ public class MonsterGame {
 
         printScore(terminal, player.getScore());
         terminal.flush();
+    }
+
+    private static boolean isPlayerAlive() {
+        return true;
     }
 
     private static void eatFood(Player player, List<Food> food) {
@@ -334,10 +294,6 @@ public class MonsterGame {
 
 
     private static List createMonsters() {
-<<<<<<< Updated upstream
-=======
-        if (playerAlive){
->>>>>>> Stashed changes
         List<Monster> monsters = new ArrayList<>();
 
         List<Position> path1 = createCirclePath(12, 12, 14, 14);
@@ -352,17 +308,15 @@ public class MonsterGame {
 
         monsters.add(monster1);
         monsters.add(monster2);
-        return monsters;}
-        else return null;
+        return monsters;
     }
 
     public static void printScore(Terminal terminal, int score) throws IOException {
-        if (playerAlive){
         String message = "Score: " + score;
         for (int i = 0; i < message.length(); i++) {
             terminal.setCursorPosition(50 + i, 0);
             terminal.putCharacter(message.charAt(i));
-        }}
+        }
         terminal.flush();
     }
 
