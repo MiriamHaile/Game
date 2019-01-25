@@ -272,7 +272,7 @@ public class MonsterGame {
     private static List createMonsters() {
         List<Monster> monsters = new ArrayList<>();
 
-        List<Position> path1 = createCirclePath(12, 12, 14, 14);
+        List<Position> path1 = createCirclePath(1, 1, 78, 22);
         List<Position> path2 = createCirclePath(1, 7, 5, 9);
         List<Position> path3 = new ArrayList<>();
         path3.addAll(createLinePath(2, 2, 65, 2));
