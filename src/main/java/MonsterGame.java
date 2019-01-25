@@ -173,7 +173,26 @@ public class MonsterGame {
     private static List createMaze() {
         List<Position> maze = new ArrayList();
 
+        for (int y = 3; y <= 21; y += 3) {
+
+            maze.addAll(createLinePath(5, y, 25, y));
+        }
+
+        for (int x = 27; x <= 78; x += 4) {
+            maze.addAll(createLinePath(x, 3, x, 11));
+
+        }
+
+        for (int x = 28; x <= 45; x += 2) {
+            maze.addAll(createCirclePath(x, 13, x, 20));
+        }
+
+        for (int y = 13; y <= 20; y += 2) {
+            maze.addAll(createLinePath(46, y, 77, y));
+        }
+
         maze.addAll(createCirclePath(0, 0, 79, 23));
+
 
         return maze;
     }
