@@ -10,15 +10,11 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class MonsterGame {
 
-    static int score = 0;
-//    static boolean playerAlive = true;
-
-    public static void main(String[] args) throws IOException, InterruptedException {
-
+    public static void main(String[] args) throws IOException {
         startGame();
     }
 
-    private static void startGame() throws IOException, InterruptedException {
+    private static void startGame() throws IOException {
         Terminal terminal = createTerminal();
 
         Player player = createPlayer();
@@ -57,7 +53,6 @@ public class MonsterGame {
         for (Monster m : monsters) {
             m.monsterMove(m.getPath());
             if (m.getX() == player.getX() && m.getY()== player.getY()) {
-//                System.out.println("game over");
                 killPlayer(player, terminal);
             }
 
@@ -73,22 +68,22 @@ public class MonsterGame {
         if (keyStroke != null) {
             switch (keyStroke.getKeyType()) {
                 case ArrowUp:
-                    if (canMove(player, 0, maze, food, terminal)) {
+                    if (canMove(player, 0, maze)) {
                         player.moveUp();
                     }
                     break;
                 case ArrowDown:
-                    if (canMove(player, 1, maze, food, terminal)) {
+                    if (canMove(player, 1, maze)) {
                         player.moveDown();
                     }
                     break;
                 case ArrowLeft:
-                    if (canMove(player, 2, maze, food, terminal)) {
+                    if (canMove(player, 2, maze)) {
                         player.moveLeft();
                     }
                     break;
                 case ArrowRight:
-                    if (canMove(player, 3, maze, food, terminal)) {
+                    if (canMove(player, 3, maze)) {
                         player.moveRight();
                     }
                     break;
@@ -102,7 +97,7 @@ public class MonsterGame {
         }
     }
 
-    private static Boolean canMove(GameCharacter gameChar, int dir, List maze, List food, Terminal terminal) throws IOException {
+    private static Boolean canMove(GameCharacter gameChar, int dir, List maze) {
         Position pos;
         switch (dir) {
             case 0:
@@ -139,15 +134,6 @@ public class MonsterGame {
         return false;
     }
 
-    private static KeyStroke getUserKeyStroke(Terminal terminal, List<Monster> monsters, Player player) throws InterruptedException, IOException {
-        KeyStroke keyStroke;
-        do {
-            Thread.sleep(5);
-            keyStroke = terminal.pollInput();
-        } while (keyStroke == null);
-        return keyStroke;
-    }
-
     private static Player createPlayer() {
         return new Player(10, 10, '\u263a');
     }
@@ -161,7 +147,6 @@ public class MonsterGame {
             foodItems.add(new Food(randomX, randomY, '✹'));
         }
         return foodItems;
-
     }
 
     private static Terminal createTerminal() throws IOException {
@@ -207,7 +192,7 @@ public class MonsterGame {
             terminal.setForegroundColor(TextColor.ANSI.BLUE);
         }
         for (Food f : food) {
-            if (canMove(f, 4, maze, food, terminal)) {
+            if (canMove(f, 4, maze)) {
                 terminal.setCursorPosition(f.getX(), f.getY());
                 terminal.putCharacter(f.getFood());
                 terminal.setForegroundColor(TextColor.ANSI.GREEN);
@@ -233,10 +218,6 @@ public class MonsterGame {
 
         printScore(terminal, player.getScore());
         terminal.flush();
-    }
-
-    private static boolean isPlayerAlive() {
-        return true;
     }
 
     private static void eatFood(Player player, List<Food> food) {

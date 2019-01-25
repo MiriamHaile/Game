@@ -63,15 +63,4 @@ public class Player extends GameCharacter {
         previousY = y;
         x++;
     }
-
-    @Override
-    public String toString() {
-        return "Player{" +
-                "x=" + x +
-                ", y=" + y +
-                ", symbol=" + symbol +
-                ", previousX=" + previousX +
-                ", previousY=" + previousY +
-                '}';
-    }
 }
