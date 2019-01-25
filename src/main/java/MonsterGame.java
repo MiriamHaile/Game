@@ -11,7 +11,7 @@ import java.util.concurrent.ThreadLocalRandom;
 public class MonsterGame {
 
     static int score = 0;
-    static boolean playerAlive = true;
+//    static boolean playerAlive = true;
 
     public static void main(String[] args) throws IOException, InterruptedException {
 
@@ -45,7 +45,7 @@ public class MonsterGame {
             eatFood(player, food);
 
             drawPlayer(terminal, player);
-        } while (playerAlive);
+        } while (player.getPlayerAlive());
 
         terminal.setCursorPosition(player.getX(), player.getY());
         terminal.putCharacter(player.getSymbol());
@@ -58,12 +58,7 @@ public class MonsterGame {
             m.monsterMove(m.getPath());
             if (m.getX() == player.getX() && m.getY()== player.getY()) {
 //                System.out.println("game over");
-                playerAlive = false;
-                String endMessage = "GAME OVER!! FINAL SCORE: "+player.getScore();
-                for (int i = 0;i < endMessage.length();i++){
-                    terminal.setCursorPosition(20 + i, 2);
-                    terminal.putCharacter(endMessage.charAt(i));
-                }
+                killPlayer(player, terminal);
             }
 
             terminal.setCursorPosition(m.getX(), m.getY());
@@ -101,7 +96,7 @@ public class MonsterGame {
 
             for (Monster m : monsters) {
                 if (m.x == player.x && m.y == player.y) {
-                    System.out.println("game over");
+                    killPlayer(player, terminal);
                 }
             }
         }
@@ -288,7 +283,7 @@ public class MonsterGame {
             }
         }
 
-        System.out.println(path);
+//        System.out.println(path);
         return path;
     }
 
@@ -320,4 +315,13 @@ public class MonsterGame {
         terminal.flush();
     }
 
+    public static void killPlayer(Player player, Terminal terminal) throws IOException {
+
+        player.setPlayerAlive(false);
+        String endMessage = "GAME OVER!! FINAL SCORE: "+player.getScore();
+        for (int i = 0;i < endMessage.length();i++){
+            terminal.setCursorPosition(20 + i, 2);
+            terminal.putCharacter(endMessage.charAt(i));
+        }
+    }
 }
