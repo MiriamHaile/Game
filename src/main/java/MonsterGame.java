@@ -14,7 +14,7 @@ public class MonsterGame {
 
     public static void main(String[] args) throws IOException, InterruptedException {
 
-
+//        createLinePath(0,0, 0, 5);
         startGame();
 
     }
@@ -130,7 +130,7 @@ public class MonsterGame {
             keyStroke = terminal.pollInput();
             i++;
             if (i % 50 == 0) {
-                for ( Monster m : monsters) {
+                for (Monster m : monsters) {
                     m.monsterMove(m.getPath());
                     if (m.x == player.x && m.y == player.y) {
                         System.out.println("game over");
@@ -155,8 +155,8 @@ public class MonsterGame {
         List<Food> foodItems = new ArrayList<>();
 
         for (int i = 0; i <= 60; i++) {
-            int randomY = ThreadLocalRandom.current().nextInt(0, 25);
-            int randomX = ThreadLocalRandom.current().nextInt(0, 81);
+            int randomY = ThreadLocalRandom.current().nextInt(0, 24);
+            int randomX = ThreadLocalRandom.current().nextInt(0, 80);
             foodItems.add(new Food(randomX, randomY, 'z'));
         }
         return foodItems;
@@ -173,51 +173,8 @@ public class MonsterGame {
     private static List createMaze() {
         List<Position> maze = new ArrayList();
 
-        for (int row = 0; row < 3; row += 2) {
-            for (int c = 0; c < 21; c++) {
-                maze.add(new Position(c, row));
-            }
-        }
-        for (int row = 10; row < 14; row += 2) {
-            for (int c = 20; c < 34; c++) {
-                maze.add(new Position(c, row));
-            }
-        }
-        for (int row = 14; row < 17; row += 2) {
-            for (int c = 30; c < 64; c++) {
-                maze.add(new Position(c, row));
-            }
-        }
-        for (int row = 18; row < 22; row += 2) {
-            for (int c = 2; c < 24; c++) {
-                maze.add(new Position(c, row));
-            }
-        }
-        for (int row = 2; row < 6; row += 2) {
-            for (int c = 0; c < 21; c++) {
-                maze.add(new Position(c, row));
-            }
-        }
-        for (int row = 10; row < 12; row += 2) {
-            for (int c = 10; c < 21; c++) {
-                maze.add(new Position(c, row));
-            }
-        }
-        for (int row = 20; row < 24; row += 2) {
-            for (int c = 40; c < 60; c++) {
-                maze.add(new Position(c, row));
-            }
-        }
-        for (int row = 20; row < 24; row += 2) {
-            for (int c = 0; c < 20; c++) {
-                maze.add(new Position(c, row));
-            }
-        }
-        for (int row = 3; row < 7; row += 2) {
-            for (int c = 50; c < 70; c++) {
-                maze.add(new Position(c, row));
-            }
-        }
+        maze.addAll(createCirclePath(0, 0, 79,23));
+
         return maze;
     }
 
@@ -272,7 +229,7 @@ public class MonsterGame {
         }
     }
 
-    private static List createPath(int x1, int y1, int x2, int y2) {
+    private static List createCirclePath(int x1, int y1, int x2, int y2) {
         List<Position> path = new ArrayList<>();
 
         for (int x = x1; x < x2; x++) {
@@ -287,16 +244,30 @@ public class MonsterGame {
         for (int y = y2; y > y1; y--) {
             path.add(new Position(x1, y));
         }
+//        System.out.println(path);
+        return path;
+    }
+
+    private static List createLinePath(int x1, int y1, int x2, int y2) {
+
+        List<Position> path = new ArrayList<>();
+
+        for (int y = y1; y <= y2; y++) {
+            for (int x = x1; x <= x2; x++) {
+                path.add(new Position(x, y));
+            }
+        }
+
         System.out.println(path);
         return path;
     }
 
 
-    private static List createMonsters(){
+    private static List createMonsters() {
         List<Monster> monsters = new ArrayList<>();
 
-        List<Position> path1 = createPath(12, 12, 14, 14);
-        List<Position> path2 = createPath(1, 7, 5, 9);
+        List<Position> path1 = createCirclePath(12, 12, 14, 14);
+        List<Position> path2 = createCirclePath(1, 7, 5, 9);
 
         Monster monster1 = new Monster(path1.get(0).x, path1.get(0).y, 'W', path1);
         Monster monster2 = new Monster(path2.get(0).x, path2.get(0).y, 'W', path2);
