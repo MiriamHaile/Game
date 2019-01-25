@@ -34,7 +34,7 @@ public class MonsterGame {
         KeyStroke keyStroke = null;
         int delay = 0;
         do {
-            if (delay == 300) {
+            if (delay == 1000) {
                 delay = 0;
                 moveMonsters(terminal, monsters, player);
             }
