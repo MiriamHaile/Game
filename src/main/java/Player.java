@@ -4,6 +4,7 @@ public class Player extends GameCharacter {
     private int previousY;
     private int score = 0;
 
+
     public Player(int x, int y, char symbol) {
         super(x, y);
         this.symbol = symbol;

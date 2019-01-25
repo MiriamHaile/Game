@@ -30,8 +30,6 @@ public class MonsterGame {
 
         List<Position> maze = createMaze();
 
-
-
         drawCharacters(terminal, player, maze, food, monsters);
 
         do {
@@ -43,7 +41,6 @@ public class MonsterGame {
 
             drawCharacters(terminal, player, maze, food, monsters);
         } while (isPlayerAlive());
-
 
 
         terminal.setCursorPosition(player.getX(), player.getY());
@@ -159,6 +156,7 @@ public class MonsterGame {
             int randomY = ThreadLocalRandom.current().nextInt(0, 24);
             int randomX = ThreadLocalRandom.current().nextInt(0, 80);
             foodItems.add(new Food(randomX, randomY, '⭖'));
+
         }
         return foodItems;
 
@@ -174,7 +172,7 @@ public class MonsterGame {
     private static List createMaze() {
         List<Position> maze = new ArrayList();
 
-        maze.addAll(createCirclePath(0, 0, 79,23));
+        maze.addAll(createCirclePath(0, 0, 79, 23));
 
         return maze;
     }
@@ -185,25 +183,33 @@ public class MonsterGame {
         for (Position p : maze) {
             terminal.setCursorPosition(p.x, p.y);
             terminal.putCharacter('\u2588');
+            terminal.setForegroundColor(TextColor.ANSI.BLUE);
         }
+        terminal.flush();
         for (Food f : food) {
             if (canMove(f, 4, maze, food, terminal)) {
                 terminal.setCursorPosition(f.getX(), f.getY());
                 terminal.putCharacter(f.getFood());
+                terminal.setForegroundColor(TextColor.ANSI.GREEN);
             }
         }
+        terminal.flush();
+
         for (Monster m : monsters) {
             terminal.setCursorPosition(m.getX(), m.getY());
             terminal.putCharacter(m.getSymbol());
             terminal.setCursorPosition(m.getPreviousX(), m.getPreviousY());
             terminal.putCharacter(' ');
+            terminal.setForegroundColor(TextColor.ANSI.YELLOW);
         }
+        terminal.flush();
 
         terminal.setCursorPosition(player.getPreviousX(), player.getPreviousY());
         terminal.putCharacter(' ');
 
         terminal.setCursorPosition(player.getX(), player.getY());
         terminal.putCharacter(player.getSymbol());
+        terminal.setForegroundColor(TextColor.ANSI.RED);
 
 
         printScore(terminal, player.getScore());
@@ -270,8 +276,10 @@ public class MonsterGame {
         List<Position> path1 = createCirclePath(12, 12, 14, 14);
         List<Position> path2 = createCirclePath(1, 7, 5, 9);
 
+
         Monster monster1 = new Monster(path1.get(0).x, path1.get(0).y, '⛇', path1);
         Monster monster2 = new Monster(path2.get(0).x, path2.get(0).y, '⛇', path2);
+
 
         monsters.add(monster1);
         monsters.add(monster2);
@@ -286,5 +294,4 @@ public class MonsterGame {
         }
         terminal.flush();
     }
-
 }
