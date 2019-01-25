@@ -275,15 +275,32 @@ public class MonsterGame {
         List<Position> path1 = createCirclePath(12, 12, 14, 14);
         List<Position> path2 = createCirclePath(1, 7, 5, 9);
         List<Position> path3 = new ArrayList<>();
-        path3.addAll(createLinePath(2, 2, 50, 2));
-        path3.addAll(createLinePath(2, 2, 50, 2));
+        path3.addAll(createLinePath(2, 2, 65, 2));
+        List<Position> path4 = new ArrayList<>();
+        List<Position> path5 = new ArrayList<>();
+        List<Position> path6 = new ArrayList<>();
+        path4.addAll(createLinePath(65,2,65,12));
+        path5.addAll(createLinePath(30,12,70,12));
+
+
+
+
 
 
         Monster monster1 = new Monster(path1.get(0).x, path1.get(0).y, '⛇', path1);
         Monster monster2 = new Monster(path2.get(0).x, path2.get(0).y, '⛇', path2);
+        Monster monster3 = new Monster(path3.get(0).x, path3.get(0).y, '⛇', path3);
+        Monster monster4 = new Monster(path4.get(0).x, path4.get(0).y, '⛇', path4);
+        Monster monster5 = new Monster(path5.get(0).x, path5.get(0).y, '⛇', path5);
+
 
         monsters.add(monster1);
         monsters.add(monster2);
+        monsters.add(monster3);
+        monsters.add(monster4);
+        monsters.add(monster5);
+
+
         return monsters;
     }
 
