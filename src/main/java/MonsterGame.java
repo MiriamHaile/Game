@@ -31,6 +31,7 @@ public class MonsterGame {
         List<Position> maze = createMaze();
 
 
+
         drawCharacters(terminal, player, maze, food, monsters);
 
         do {
@@ -44,7 +45,7 @@ public class MonsterGame {
         } while (isPlayerAlive());
 
 
-        terminal.setForegroundColor(TextColor.ANSI.RED);
+
         terminal.setCursorPosition(player.getX(), player.getY());
         terminal.putCharacter(player.getSymbol());
         terminal.bell();
@@ -157,7 +158,7 @@ public class MonsterGame {
         for (int i = 0; i <= 60; i++) {
             int randomY = ThreadLocalRandom.current().nextInt(0, 24);
             int randomX = ThreadLocalRandom.current().nextInt(0, 80);
-            foodItems.add(new Food(randomX, randomY, 'z'));
+            foodItems.add(new Food(randomX, randomY, '⭖'));
         }
         return foodItems;
 
@@ -269,8 +270,8 @@ public class MonsterGame {
         List<Position> path1 = createCirclePath(12, 12, 14, 14);
         List<Position> path2 = createCirclePath(1, 7, 5, 9);
 
-        Monster monster1 = new Monster(path1.get(0).x, path1.get(0).y, 'W', path1);
-        Monster monster2 = new Monster(path2.get(0).x, path2.get(0).y, 'W', path2);
+        Monster monster1 = new Monster(path1.get(0).x, path1.get(0).y, '⛇', path1);
+        Monster monster2 = new Monster(path2.get(0).x, path2.get(0).y, '⛇', path2);
 
         monsters.add(monster1);
         monsters.add(monster2);
