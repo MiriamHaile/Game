@@ -3,7 +3,15 @@ public class Player extends GameCharacter {
     private int previousX;
     private int previousY;
     private int score = 0;
+    private Boolean playerAlive = true;
 
+    public Boolean getPlayerAlive() {
+        return playerAlive;
+    }
+
+    public void setPlayerAlive(Boolean playerAlive) {
+        this.playerAlive = playerAlive;
+    }
 
     public Player(int x, int y, char symbol) {
         super(x, y);
@@ -54,16 +62,5 @@ public class Player extends GameCharacter {
         previousX = x;
         previousY = y;
         x++;
-    }
-
-    @Override
-    public String toString() {
-        return "Player{" +
-                "x=" + x +
-                ", y=" + y +
-                ", symbol=" + symbol +
-                ", previousX=" + previousX +
-                ", previousY=" + previousY +
-                '}';
     }
 }
