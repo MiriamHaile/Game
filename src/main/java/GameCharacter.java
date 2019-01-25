@@ -1,4 +1,4 @@
-public class GameCharacter {
+public abstract class GameCharacter {
 
     protected int x;
 
