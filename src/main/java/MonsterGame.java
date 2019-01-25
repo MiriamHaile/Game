@@ -11,13 +11,6 @@ import java.util.concurrent.ThreadLocalRandom;
 public class MonsterGame {
 
     public static void main(String[] args) throws IOException {
-        MP3Player m = new MP3Player();
-        boolean again = true;
-        do {
-
-            m.play("victory.mp3", true);
-            break;
-        } while (again);
         startGame();
     }
 
@@ -59,7 +52,7 @@ public class MonsterGame {
     private static void moveMonsters(Terminal terminal, List<Monster> monsters, Player player) throws IOException {
         for (Monster m : monsters) {
             m.monsterMove(m.getPath());
-            if (m.getX() == player.getX() && m.getY()== player.getY()) {
+            if (m.getX() == player.getX() && m.getY() == player.getY()) {
                 killPlayer(player, terminal);
             }
 
@@ -148,7 +141,7 @@ public class MonsterGame {
     private static List createFood() {
         List<Food> foodItems = new ArrayList<>();
 
-        for (int i = 0; i <= 60; i++) {
+        for (int i = 0; i <= 100; i++) {
             int randomY = ThreadLocalRandom.current().nextInt(0, 24);
             int randomX = ThreadLocalRandom.current().nextInt(0, 80);
             foodItems.add(new Food(randomX, randomY, '✹'));
@@ -233,6 +226,8 @@ public class MonsterGame {
         for (Food f : food) {
             if (f.getX() == player.getX() && f.getY() == player.getY()) {
                 ff = f;
+                MP3Player m = new MP3Player();
+                    m.play("button-3.mp3");
                 break;
             }
         }
@@ -286,12 +281,8 @@ public class MonsterGame {
         List<Position> path4 = new ArrayList<>();
         List<Position> path5 = new ArrayList<>();
         List<Position> path6 = new ArrayList<>();
-        path4.addAll(createLinePath(65,2,65,12));
-        path5.addAll(createLinePath(30,12,70,12));
-
-
-
-
+        path4.addAll(createLinePath(65, 2, 65, 12));
+        path5.addAll(createLinePath(30, 12, 70, 12));
 
 
         Monster monster1 = new Monster(path1.get(0).x, path1.get(0).y, '⛇', path1);
@@ -321,12 +312,13 @@ public class MonsterGame {
     }
 
     public static void killPlayer(Player player, Terminal terminal) throws IOException {
-
         player.setPlayerAlive(false);
-        String endMessage = "GAME OVER!! FINAL SCORE: "+player.getScore();
-        for (int i = 0;i < endMessage.length();i++){
+        String endMessage = "GAME OVER!! FINAL SCORE: " + player.getScore();
+        for (int i = 0; i < endMessage.length(); i++) {
             terminal.setCursorPosition(20 + i, 2);
             terminal.putCharacter(endMessage.charAt(i));
         }
+        MP3Player m = new MP3Player();
+        m.play("victory.mp3");
     }
 }
