@@ -5,6 +5,7 @@ public class Monster extends GameCharacter{
     private int previousX;
     private int previousY;
     private List<Position> path;
+    private boolean monsterAlive = true;
 
     public List<Position> getPath() {
         return path;
@@ -17,6 +18,7 @@ public class Monster extends GameCharacter{
         this.previousY = y;
         this.path = path;
     }
+
 
     public void monsterMove (List<Position> path) {
         previousX = this.x;
